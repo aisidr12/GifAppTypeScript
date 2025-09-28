@@ -4,6 +4,7 @@ import { SearchBar } from "./shared/components/SearchBar"
 import { PreviousSearches } from "./gifs/Components/PreviousSearches"
 import { GifList } from "./gifs/Components/GifList"
 import { useState } from "react"
+import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action"
 
 export const GifsApp = () => {
  
@@ -13,14 +14,16 @@ export const GifsApp = () => {
         console.log(term);
     };
 
-    const handleSearch =  (query: string = ' ') => {
+    const handleSearch =  async (query: string = ' ') => {
 
       query = query.trim().toLowerCase();
       if( query.length ===0) return;
       if(previousTerms.includes(query)) return; // evitar terminos repetidos
   
       setPreviousTerms([query, ...previousTerms].slice(0,5));
-      console.log({query});
+
+      const gifs = await getGifsByQuery(query);
+      console.log({gifs});
     }
   return (
    <>
