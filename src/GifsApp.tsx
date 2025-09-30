@@ -2,30 +2,12 @@ import { CustomHeader } from "./shared/components/CustomHeader"
 import { SearchBar } from "./shared/components/SearchBar"
 import { PreviousSearches } from "./gifs/Components/PreviousSearches"
 import { GifList } from "./gifs/Components/GifList"
-import { useState } from "react"
-import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action"
-import type { Gif } from "./gifs/interfaces/gif.interface"
+import { useGifs } from "./gifs/hooks/useGifs"
 
 export const GifsApp = () => {
-    const [gifs, setGifs] = useState<Gif[]>([]);
-    const [ previousTerms, setPreviousTerms ] = useState(['dragon ball z']);
 
-    const handleTermClicked = (term: string) => {
-        console.log(term);
-    };
+  const { handleSearch, handleTermClicked, previousTerms, gifs } = useGifs();
 
-    const handleSearch =  async (query: string = ' ') => {
-
-      query = query.trim().toLowerCase();
-      if( query.length ===0) return;
-      if(previousTerms.includes(query)) return; // evitar terminos repetidos
-  
-      setPreviousTerms([query, ...previousTerms].slice(0,5));
-
-      const gifs = await getGifsByQuery(query);
-      setGifs(gifs); // <-- Guarda los gifs en el estado
-      console.log({gifs});
-    }
   return (
    <>
     <CustomHeader title="Mis Gifs" description="Descubre y comparte el gif perfecto" />
