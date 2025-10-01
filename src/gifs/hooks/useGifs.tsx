@@ -27,8 +27,8 @@ export const useGifs = () => {
     const gifs = await getGifsByQuery(query);
     setGifs(gifs); // <-- Guarda los gifs en el estado
     gifsCache.current[query] = gifs; // <-- Guarda los gifs en el cache
+};
 
-  }
     return { 
        
         //props
